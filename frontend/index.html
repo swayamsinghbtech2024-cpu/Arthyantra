@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Forex Portfolio Management & Strategy Simulator - Manage trades, simulate strategies, and track P/L across forex, commodities, indices, and crypto.">
+    <title>Forex Portfolio Manager | Strategy Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- BACKGROUND EFFECTS                                              -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="bg-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- HEADER / NAVIGATION                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="url(#logoGrad)" stroke-width="2"/>
+                        <path d="M8 16L12 12L16 15L20 10" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="8" cy="16" r="1.5" fill="#00D4AA"/>
+                        <circle cx="12" cy="12" r="1.5" fill="#00D4AA"/>
+                        <circle cx="16" cy="15" r="1.5" fill="#00D4AA"/>
+                        <circle cx="20" cy="10" r="1.5" fill="#00D4AA"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="2" y1="2" x2="26" y2="26">
+                                <stop stop-color="#00D4AA"/>
+                                <stop offset="1" stop-color="#7B61FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>ForexPro</h1>
+                    <span class="logo-subtitle">Portfolio & Strategy Simulator</span>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-indicator" id="serverStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+                <div class="status-indicator" id="dbStatus">
+                    <span class="status-dot db-dot"></span>
+                    <span class="status-text db-text">DB: Checking...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- MAIN CONTENT                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <main class="app-main">
+
+        <!-- ─── Stats Bar ──────────────────────────────────────────── -->
+        <section class="stats-bar" id="statsBar">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statTrades">0</span>
+                    <span class="stat-label">Total Trades</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statInvested">₹0.00</span>
+                    <span class="stat-label">Total Invested</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statRevenue">₹0.00</span>
+                    <span class="stat-label">Total Revenue</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon profit-icon" id="plIcon">📉</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="statPL">₹0.00</span>
+                    <span class="stat-label">Net Profit/Loss</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Two Column Layout ──────────────────────────────────── -->
+        <div class="content-grid">
+
+            <!-- ═══ LEFT COLUMN: Trade Form ═══ -->
+            <section class="panel trade-form-panel">
+                <div class="panel-header">
+                    <h2>
+                        <span class="panel-icon">➕</span>
+                        New Trade
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <form id="tradeForm" onsubmit="return false;">
+
+                        <!-- Trade Type -->
+                        <div class="form-group">
+                            <label for="tradeType">Trade Type</label>
+                            <div class="type-selector">
+                                <button type="button" class="type-btn active buy-btn" id="btnBuy" onclick="selectType('BUY')">
+                                    <span class="type-arrow">▲</span> BUY
+                                </button>
+                                <button type="button" class="type-btn sell-btn" id="btnSell" onclick="selectType('SELL')">
+                                    <span class="type-arrow">▼</span> SELL
+                                </button>
+                            </div>
+                            <input type="hidden" id="tradeType" value="BUY">
+                        </div>
+
+                        <!-- Instrument -->
+                        <div class="form-group">
+                            <label for="instrument">Instrument</label>
+                            <select id="instrument" required>
+                                <optgroup label="━━ Forex Pairs ━━">
+                                    <option value="USD/INR">🇺🇸 USD/INR</option>
+                                    <option value="EUR/USD">🇪🇺 EUR/USD</option>
+                                    <option value="GBP/USD">🇬🇧 GBP/USD</option>
+                                    <option value="USD/JPY">🇯🇵 USD/JPY</option>
+                                    <option value="AUD/USD">🇦🇺 AUD/USD</option>
+                                    <option value="USD/CAD">🇨🇦 USD/CAD</option>
+                                    <option value="NZD/USD">🇳🇿 NZD/USD</option>
+                                    <option value="USD/CHF">🇨🇭 USD/CHF</option>
+                                    <option value="EUR/GBP">🇪🇺 EUR/GBP</option>
+                                    <option value="EUR/JPY">🇪🇺 EUR/JPY</option>
+                                    <option value="GBP/JPY">🇬🇧 GBP/JPY</option>
+                                    <option value="EUR/INR">🇪🇺 EUR/INR</option>
+                                    <option value="GBP/INR">🇬🇧 GBP/INR</option>
+                                    <option value="JPY/INR">🇯🇵 JPY/INR</option>
+                                </optgroup>
+                                <optgroup label="━━ Commodities ━━">
+                                    <option value="GOLD">🥇 GOLD (XAU)</option>
+                                    <option value="SILVER">🥈 SILVER (XAG)</option>
+                                    <option value="CRUDE OIL">🛢️ CRUDE OIL (WTI)</option>
+                                    <option value="NATURAL GAS">⛽ NATURAL GAS</option>
+                                    <option value="COPPER">🔶 COPPER</option>
+                                </optgroup>
+                                <optgroup label="━━ Indices ━━">
+                                    <option value="NIFTY 50">🇮🇳 NIFTY 50</option>
+                                    <option value="SENSEX">🇮🇳 SENSEX</option>
+                                    <option value="BANK NIFTY">🇮🇳 BANK NIFTY</option>
+                                    <option value="NASDAQ">🇺🇸 NASDAQ 100</option>
+                                    <option value="S&P 500">🇺🇸 S&P 500</option>
+                                    <option value="DOW JONES">🇺🇸 DOW JONES</option>
+                                    <option value="FTSE 100">🇬🇧 FTSE 100</option>
+                                    <option value="DAX">🇩🇪 DAX 40</option>
+                                    <option value="HANG SENG">🇭🇰 HANG SENG</option>
+                                    <option value="NIKKEI 225">🇯🇵 NIKKEI 225</option>
+                                </optgroup>
+                                <optgroup label="━━ Crypto ━━">
+                                    <option value="BTC/USD">₿ Bitcoin (BTC)</option>
+                                    <option value="ETH/USD">⟠ Ethereum (ETH)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!-- Quantity & Price -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" id="quantity" placeholder="e.g. 100" min="0.001" step="any" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price (₹)</label>
+                                <input type="number" id="price" placeholder="e.g. 83.50" min="0.0001" step="any" required>
+                            </div>
+                        </div>
+
+                        <!-- Trade Value Preview -->
+                        <div class="trade-preview" id="tradePreview">
+                            <span class="preview-label">Trade Value:</span>
+                            <span class="preview-value" id="previewValue">₹0.00</span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="button" class="btn btn-primary btn-add" id="btnAddTrade" onclick="addTrade()">
+                            <span class="btn-icon">⚡</span>
+                            Execute Trade
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ═══ RIGHT COLUMN: Portfolio Table ═══ -->
+            <section class="panel portfolio-panel">
+                <div class="panel-header">
+                    <h2>
+                        <span class="panel-icon">📋</span>
+                        Portfolio
+                    </h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="loadPortfolio()">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-wrapper" id="portfolioTableWrapper">
+                        <table class="trades-table" id="tradesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Instrument</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Value</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tradesBody">
+                                <tr class="empty-row">
+                                    <td colspan="8">
+                                        <div class="empty-state">
+                                            <span class="empty-icon">📭</span>
+                                            <p>No trades yet. Add your first trade to get started!</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══ Strategy Simulator Section ═══ -->
+        <section class="panel strategy-panel">
+            <div class="panel-header">
+                <h2>
+                    <span class="panel-icon">🎯</span>
+                    Strategy Simulator
+                </h2>
+                <div class="panel-actions">
+                    <button class="btn btn-accent" id="btnRunStrategy" onclick="runStrategy()">
+                        <span class="btn-icon">🚀</span>
+                        Run Simulation
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="strategy-grid" id="strategyResults">
+                    <!-- Strategy 1: Buy & Hold -->
+                    <div class="strategy-card" id="stratBuyHold">
+                        <div class="strategy-header">
+                            <div class="strategy-icon">📈</div>
+                            <h3>Buy & Hold</h3>
+                        </div>
+                        <p class="strategy-desc">Classic long-term approach. Buy assets and hold through market cycles.</p>
+                        <div class="strategy-result">
+                            <span class="result-label">Projected Profit</span>
+                            <span class="result-value" id="resultBuyHold">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Strategy 2: Random -->
+                    <div class="strategy-card" id="stratRandom">
+                        <div class="strategy-header">
+                            <div class="strategy-icon">🎲</div>
+                            <h3>Random Strategy</h3>
+                        </div>
+                        <p class="strategy-desc">Monte Carlo simulation with random buy/sell decisions over 100 iterations.</p>
+                        <div class="strategy-result">
+                            <span class="result-label">Average Profit</span>
+                            <span class="result-value" id="resultRandom">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Strategy 3: Momentum -->
+                    <div class="strategy-card" id="stratMomentum">
+                        <div class="strategy-header">
+                            <div class="strategy-icon">⚡</div>
+                            <h3>Momentum Strategy</h3>
+                        </div>
+                        <p class="strategy-desc">Follows existing trade sentiment. Bullish momentum = projected gains.</p>
+                        <div class="strategy-result">
+                            <span class="result-label">Projected Profit</span>
+                            <span class="result-value" id="resultMomentum">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Strategy Verdict -->
+                <div class="verdict-card" id="verdictCard" style="display:none;">
+                    <div class="verdict-content">
+                        <span class="verdict-icon">🏆</span>
+                        <div class="verdict-text">
+                            <h3>Best Strategy: <span id="bestStrategyName">—</span></h3>
+                            <p>Projected Best Profit: <strong id="bestStrategyProfit">—</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- UPDATE MODAL                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="updateModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>✏️ Update Trade</h3>
+                <button class="modal-close" onclick="closeUpdateModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="updateId">
+                <div class="form-group">
+                    <label for="updateQuantity">New Quantity</label>
+                    <input type="number" id="updateQuantity" placeholder="Enter new quantity" min="0.001" step="any">
+                </div>
+                <div class="form-group">
+                    <label for="updatePrice">New Price (₹)</label>
+                    <input type="number" id="updatePrice" placeholder="Enter new price" min="0.0001" step="any">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitUpdate()">Update Trade</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- TOAST NOTIFICATIONS                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- FOOTER                                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <footer class="app-footer">
+        <p>Forex Portfolio Management & Strategy Simulator &copy; 2025 | Java Full-Stack Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

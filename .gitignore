@@ -1,0 +1,4 @@
+backend/*.class
+backend/*.jar
+.DS_Store
+data/trades_backup.txt
