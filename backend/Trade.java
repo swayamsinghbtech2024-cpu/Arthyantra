@@ -15,6 +15,9 @@ public class Trade {
     private double quantity;          // Number of units traded
     private double price;             // Price per unit at time of trade
     private String timestamp;         // ISO timestamp of when the trade was created
+    private double stopLoss;          // Stop-loss percentage (0 = use default)
+    private double takeProfit;        // Take-profit percentage (0 = use default)
+    private String status;            // OPEN, CLOSED
 
     // Date formatter for consistent timestamp formatting
     private static final DateTimeFormatter FORMATTER =
@@ -32,6 +35,9 @@ public class Trade {
         this.quantity = quantity;
         this.price = price;
         this.timestamp = timestamp;
+        this.stopLoss = 0;
+        this.takeProfit = 0;
+        this.status = "OPEN";
     }
 
     /**
@@ -45,6 +51,9 @@ public class Trade {
         this.quantity = quantity;
         this.price = price;
         this.timestamp = LocalDateTime.now().format(FORMATTER);
+        this.stopLoss = 0;
+        this.takeProfit = 0;
+        this.status = "OPEN";
     }
 
     // ─── Getters & Setters ───────────────────────────────────────────────
@@ -67,6 +76,15 @@ public class Trade {
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
 
+    public double getStopLoss() { return stopLoss; }
+    public void setStopLoss(double stopLoss) { this.stopLoss = stopLoss; }
+
+    public double getTakeProfit() { return takeProfit; }
+    public void setTakeProfit(double takeProfit) { this.takeProfit = takeProfit; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
     // ─── Serialization Methods ───────────────────────────────────────────
 
     /**
@@ -80,6 +98,9 @@ public class Trade {
                 "\"instrument\":\"" + escapeJSON(instrument) + "\"," +
                 "\"quantity\":" + quantity + "," +
                 "\"price\":" + price + "," +
+                "\"stopLoss\":" + stopLoss + "," +
+                "\"takeProfit\":" + takeProfit + "," +
+                "\"status\":\"" + escapeJSON(status != null ? status : "OPEN") + "\"," +
                 "\"timestamp\":\"" + escapeJSON(timestamp) + "\"" +
                 "}";
     }
@@ -157,7 +178,8 @@ public class Trade {
 
     @Override
     public String toString() {
-        return String.format("[%d] %s %s | Qty: %.2f | Price: %.2f | %s",
-                id, type, instrument, quantity, price, timestamp);
+        return String.format("[%d] %s %s | Qty: %.2f | Price: %.2f | SL: %.1f%% | TP: %.1f%% | %s | %s",
+                id, type, instrument, quantity, price, stopLoss, takeProfit, 
+                status != null ? status : "OPEN", timestamp);
     }
 }
