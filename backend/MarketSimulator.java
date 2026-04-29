@@ -5,18 +5,18 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * MarketSimulator — Market Simulation Engine (Observer Pattern Subject)
- * 
+ 
  * Simulates real-time Forex price movements using random walk with drift.
  * Acts as the SUBJECT in the Observer Pattern — maintains a list of observers
  * and notifies them on every price tick.
- * 
+ 
  * Features:
  * - Generates realistic price movements with volatility
  * - Supports multiple instruments simultaneously
  * - Runs analysis using the active TradingStrategy on each tick
  * - Notifies observers of both price updates and generated signals
  * - Supports historical replay (backtesting mode)
- * 
+ 
  * Tick interval: 2 seconds (configurable)
  */
 public class MarketSimulator {
