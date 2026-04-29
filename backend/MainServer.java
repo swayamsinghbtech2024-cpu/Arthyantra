@@ -53,6 +53,13 @@ public class MainServer {
     // SSE clients
     private static final List<HttpExchange> sseClients = new CopyOnWriteArrayList<>();
 
+    // ─── Getters for JavaFX Integration ──────────────────────────────
+    public static Portfolio getPortfolio() { return portfolio; }
+    public static MarketSimulator getMarketSimulator() { return marketSimulator; }
+    public static TradeEngine getTradeEngine() { return tradeEngine; }
+    public static RiskManager getRiskManager() { return riskManager; }
+    public static SignalLogger getSignalLogger() { return signalLogger; }
+
     // ─── Main Entry Point ────────────────────────────────────────────
 
     public static void main(String[] args) throws Exception {

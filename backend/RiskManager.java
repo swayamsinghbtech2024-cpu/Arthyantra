@@ -136,10 +136,12 @@ public class RiskManager implements MarketObserver {
     public void setMaxDrawdownPercent(double percent) { this.maxDrawdownPercent = percent; }
     public void setRiskPerTradePercent(double percent) { this.riskPerTradePercent = percent; }
 
+    public double getRiskPerTradePercent() { return riskPerTradePercent; }
     public double getStopLossPercent() { return stopLossPercent; }
     public double getTakeProfitPercent() { return takeProfitPercent; }
     public double getMaxDrawdownPercent() { return maxDrawdownPercent; }
     public double getCurrentDrawdown() { return currentDrawdown; }
+    public boolean isDrawdownExceeded() { return currentDrawdown >= maxDrawdownPercent; }
 
     // ─── Event Logging ───────────────────────────────────────────────
 

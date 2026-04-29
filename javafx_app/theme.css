@@ -1,0 +1,167 @@
+.root {
+    -fx-background-color: #0b1326;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 13px;
+}
+
+.label {
+    -fx-text-fill: #dae2fd;
+}
+
+.header-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.subtitle-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8694b8;
+    -fx-font-weight: bold;
+}
+
+/* ─── Navigation ─── */
+.nav-bar {
+    -fx-background-color: #131b2e;
+    -fx-padding: 10 20;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.06) transparent;
+    -fx-alignment: center-left;
+    -fx-spacing: 15;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8694b8;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(34, 42, 61, 0.8);
+    -fx-text-fill: #dae2fd;
+}
+
+.nav-button.active {
+    -fx-background-color: rgba(16, 185, 129, 0.15);
+    -fx-text-fill: #4edea3;
+}
+
+/* ─── Cards ─── */
+.glass-card {
+    -fx-background-color: rgba(23, 31, 51, 0.65);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 20;
+}
+
+.market-card {
+    -fx-background-color: rgba(23, 31, 51, 0.65);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 15;
+    -fx-alignment: center;
+}
+
+.market-name {
+    -fx-text-fill: #8694b8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.market-price {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* ─── Profit/Loss ─── */
+.profit-text { -fx-text-fill: #4edea3; }
+.loss-text { -fx-text-fill: #ffb2b7; }
+
+/* ─── Buttons ─── */
+.button-primary {
+    -fx-background-color: #10B981;
+    -fx-text-fill: #003824;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: #4edea3;
+}
+
+.button-outline {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-radius: 5;
+    -fx-text-fill: #8694b8;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+.button-outline:hover {
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Tables ─── */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+}
+.table-view .column-header-background {
+    -fx-background-color: #131b2e;
+    -fx-border-color: transparent transparent rgba(255,255,255,0.06) transparent;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #8694b8;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.03) transparent;
+}
+.table-row-cell:odd {
+    -fx-background-color: rgba(255, 255, 255, 0.01);
+}
+.table-row-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+.table-row-cell:selected {
+    -fx-background-color: rgba(16, 185, 129, 0.1);
+}
+.table-cell {
+    -fx-text-fill: #dae2fd;
+    -fx-padding: 8;
+}
+
+/* ─── Text Fields ─── */
+.text-field, .combo-box {
+    -fx-background-color: #131b2e;
+    -fx-border-color: rgba(255, 255, 255, 0.06);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: #dae2fd;
+    -fx-padding: 8 12;
+}
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #4edea3;
+}
+.combo-box .list-cell {
+    -fx-text-fill: #dae2fd;
+    -fx-background-color: #131b2e;
+}
