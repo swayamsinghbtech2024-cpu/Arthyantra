@@ -15,7 +15,7 @@ import java.util.*;
 public class DBManager {
 
     // ─── Database Configuration ──────────────────────────────────────────
-    // ⚠️ IMPORTANT: Update these credentials for your local MySQL setup
+    //  IMPORTANT: Update these credentials for your local MySQL setup
     private static final String DB_URL  = "jdbc:mysql://localhost:3306/forex";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "Swayam9608@";  // ← Change to your MySQL password
