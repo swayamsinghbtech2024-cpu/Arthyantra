@@ -12,20 +12,21 @@ Arthyantra is a comprehensive, real-time Forex trading simulator and portfolio m
 *   **Backtesting Engine:** Evaluate strategies against historical mock data to compare Win Rate, Max Drawdown, and Sharpe Ratios.
 *   **Dual Persistence:** Seamlessly switches between MySQL database storage and a local file-based fallback if the database is unavailable.
 *   **Premium Frontend:** Glassmorphic UI with real-time DOM updates, dynamic charts, and flash animations for market ticks.
+*   **Native Desktop App:** A high-fidelity JavaFX application that runs alongside the web server, sharing the same live data and trading engine in a single memory space.
 
 ## 🛠️ Technology Stack
 
-*   **Backend:** Pure Java 8+
+*   **Backend:** Pure Java 21+
     *   No external heavy frameworks (uses built-in `com.sun.net.httpserver.HttpServer`).
-    *   **Design Patterns:** Observer (Event-driven market data), Strategy (Trading algorithms), Singleton (Database connections).
+    *   **Design Patterns:** Observer (Event-driven market data), Strategy (Trading algorithms), Singleton (Database connections), Modular View Pattern (JavaFX).
 *   **Database:** MySQL with JDBC (`mysql-connector-j-9.7.0.jar`).
-*   **Frontend:** HTML5, Vanilla CSS3 (Dark Theme + Glassmorphism), Vanilla JavaScript.
-    *   Communication: RESTful APIs and SSE (`EventSource`) for live streaming.
+*   **Web Frontend:** HTML5, Vanilla CSS3 (Dark Theme + Glassmorphism), Vanilla JavaScript.
+*   **Desktop Frontend:** JavaFX 21 (Native UI with CSS Skinning).
 
 ## 📦 Setup & Installation
 
 ### Prerequisites
-*   Java Development Kit (JDK) 8 or higher
+*   Java Development Kit (JDK) 21 or higher
 *   MySQL Server (Optional - system falls back to file storage if missing)
 
 ### 1. Database Setup (Optional)
@@ -36,23 +37,21 @@ private static final String DB_PASS = "your_password";
 ```
 *Note: The application will automatically create the `forex` database and required tables upon starting.*
 
-### 2. Compile the Project
-Navigate to the `backend` directory and compile the Java source files. The MySQL connector JAR is included.
+### 2. Compile & Run (Web Platform)
+Navigate to the `backend` directory:
 ```bash
 cd backend
 javac -cp "mysql-connector-j-9.7.0.jar;." *.java
-```
-
-### 3. Run the Server
-Start the backend server:
-```bash
 java -cp "mysql-connector-j-9.7.0.jar;." MainServer
 ```
+Access at `http://localhost:8080`.
 
-### 4. Access the Platform
-Once the server is running, open your web browser and navigate to:
-```
-http://localhost:8080
+### 3. Run (Desktop Platform)
+The Desktop app includes its own server, so you don't need to run `MainServer` separately if using the desktop app.
+Navigate to the `javafx_app` directory and use the provided utility:
+```bash
+cd javafx_app
+.\run.bat
 ```
 
 ## 📂 Project Structure
@@ -61,25 +60,19 @@ http://localhost:8080
 Arthyantra/
 ├── backend/
 │   ├── MainServer.java         # Core HTTP server and API router
-│   ├── DBManager.java          # MySQL database connection & fallback handling
-│   ├── FileManager.java        # Local storage fallback handler
-│   ├── Portfolio.java          # Service layer for Trade CRUD operations
-│   ├── Trade.java              # Trade Entity model
-│   ├── Signal.java             # Trading signal model
-│   ├── MarketSimulator.java    # Subject for the Observer pattern
-│   ├── MarketObserver.java     # Interface for the Observer pattern
-│   ├── TradeEngine.java        # Auto-trade execution observer
-│   ├── RiskManager.java        # Risk and drawdown management observer
-│   ├── SignalLogger.java       # Auditing observer
-│   ├── TradingStrategy.java    # Interface for the Strategy pattern
-│   ├── MovingAverageStrategy.java
-│   ├── RSIStrategy.java
-│   ├── BacktestEngine.java     # Historical strategy tester
+│   ├── ...                     # Portfolio, Trade, Engines, Strategies (Shared logic)
 │   └── mysql-connector-j...jar # JDBC driver
-└── frontend/
-    ├── index.html              # Main UI structure
-    ├── style.css               # Styling, animations, design system
-    └── script.js               # API integrations, SSE listener, DOM manipulation
+├── frontend/                   # Web browser interface (HTML/CSS/JS)
+├── javafx_app/                 # Native Desktop App (JavaFX 21)
+│   ├── MainApp.java            # Entry point for Desktop + Integrated Server
+│   ├── DashboardView.java      # Real-time dashboard (MarketObserver)
+│   ├── StrategiesView.java     # Strategy config & Signal log
+│   ├── BacktestView.java       # Historical simulator interface
+│   ├── RiskView.java           # Risk guardrail management
+│   ├── theme.css               # Native CSS skin (Terminal Dark Aesthetic)
+│   ├── run.bat                 # Automation script for Win (requires JDK 21)
+│   └── javafx-sdk-21/          # Bundled JavaFX libraries
+└── data/                       # Local trade & signal storage
 ```
 
 ## 🎓 Academic Submission
