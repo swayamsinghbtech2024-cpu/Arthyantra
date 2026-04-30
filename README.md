@@ -1,6 +1,6 @@
 # Arthyantra - Forex Trading Platform & Simulator
 
-![Arthyantra Dashboard](dashboard.png)
+
 
 Arthyantra is a comprehensive, real-time Forex trading simulator and portfolio management platform. It allows users to simulate live market conditions, evaluate automated trading strategies, backtest historical data, and manage risk parameters—all within a modern, data-dense interface inspired by professional trading terminals.
 
